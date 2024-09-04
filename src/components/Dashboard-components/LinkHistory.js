@@ -1,28 +1,24 @@
+
 import React, { useEffect, useMemo, useState, useCallback, useContext } from 'react'
-import Table from '../shared/Table'
-import { AvatarCell, SelectColumnFilter, StatusPill } from "../shared/tableUtilities"
-import { DeleteIcon } from '../Icons/DeleteIcon';
-import { PencilIcon } from '../Icons/PencilIcon';
-import EyeIcon from '../Icons/EyeIcon';
+// import Table from '../shared/Table'
+import { AvatarCell, SelectColumnFilter, StatusPill } from "../../shared/tableUtilities"
+import { DeleteIcon } from '../../Icons/DeleteIcon';
+import { PencilIcon } from '../../Icons/PencilIcon';
+import EyeIcon from '../../Icons/EyeIcon';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { deleteUser, getAllUsers } from '../Actions/userAction';
+import { deleteUser, getAllUsers } from '../../Actions/userAction';
 import loadable from '@loadable/component'
 import { useMediaQuery } from 'react-responsive';
-import Notification from '../Notification';
+import Notification from '../../Notification';
 import { Toaster, ToastIcon, toast, resolveValue } from "react-hot-toast";
-import WarningPage from './utilities/WarningPage';
-import { getItem } from '../login/storageService';
-import { ContextApp } from '../ContextAPI';
-import TableWrapper from '../shared/TableWrapper';
+import WarningPage from '../utilities/WarningPage';
+// import { getItem } from '../login/storageService';
+import { ContextApp } from '../../ContextAPI';
+import TableWrapper from '../../shared/TableWrapper';
+import { getAllLinks } from '../../Actions/linkHistoryActions';
 
-
-
-const CreateUser = loadable(() => import('./CreateUser'));
-// const CreateUser = <div>hii</div>
-// const role = getItem('role');
-// console.log("role in all-users", role)
-function AllUsers() {
-  const navigate = useNavigate();
+function LinkHistory() {
+    const navigate = useNavigate();
   const location = useLocation();
 
   // const loggedIn = getItem('loggedIn');
@@ -46,12 +42,12 @@ function AllUsers() {
 
   useEffect(() => {
     console.log("location", location)
-    getAllusersList();
+    getAllLinksList();
   }, [location])
 
   
 
-  const getAllusersList = async () => {
+  const getAllLinksList = async () => {
     // This function call API function from ACTIONS.
     const response = await getAllUsers();
     console.log("response to check token ", response)
@@ -139,7 +135,7 @@ function AllUsers() {
       id: 'role',
       Header: "Role",
       accessor: 'role',
-      Cell: StatusPill,
+    //   Cell: StatusPill,
     },
 
 
@@ -230,19 +226,19 @@ function AllUsers() {
     <>
       <Notification />
       {warning ? <WarningPage targetFunction={getPermissionToDelete} /> : ''}
-      <div className="w-full h-full   text-gray-900">
-        <main className=" mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+      <div className="w-full h-full   ">
+        <main className=" mx-auto ">
           <div className="">
             {/* <h1 className="text-xl font-semibold">Table Header</h1> */}
           </div>
-          {isDesktop && <div className="mt-6 ">
-            <TableWrapper ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+          {isDesktop && <div className=" ">
+            <TableWrapper header={"Links History"}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
           {isTablet && <div className=" ">
-            <TableWrapper enableRowSelect={false} hideColums={['city', 'role', 'mobile']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper header={"Links History"} enableRowSelect={false} hideColums={['city', 'role', 'mobile']}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
           {isMobile && <div className=" ">
-            <TableWrapper enableRowSelect={false} hideColums={['city', 'role', 'organisation', 'mobile']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper header={"Links History"} enableRowSelect={false} hideColums={['city', 'role', 'organisation', 'mobile']}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
         </main>
       </div>
@@ -253,4 +249,4 @@ function AllUsers() {
   ;
 }
 
-export default AllUsers;
+export default LinkHistory
