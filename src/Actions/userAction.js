@@ -11,7 +11,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
  * @returns {Array} An array of user objects.
  */
 
-const base_url = 'http://34.18.95.25'
+const base_url = 'http://127.0.0.1:4320'
 
 export const getAllUsers = async() => {
   const response = await getApiWrapper(`${base_url}/users/get-users`);

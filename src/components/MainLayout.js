@@ -22,6 +22,7 @@ function MainLayout(props) {
       console.log("logged in", loggedIn)
     }
     if(!loggedIn){
+      console.log("returning from here ")
       navigate('/login')
     }
     
@@ -30,14 +31,14 @@ function MainLayout(props) {
   return (
     (loggedIn?
       <div className=' w-full h-screen bg-gray-200 flex '>
-        <div className=' w-[20%] h-full  '>
+        <div className=' w-[20%] h-full '>
       <SideNav />
       </div>
       <div className='w-[80%] overflow-auto'>
-      <div className='bg-white border-l  w-[80%] fixed h-[72px] px-[40px] py-[16px]  '>
+      <div className='bg-white border-l  w-[80%] fixed h-[72px] px-[40px] py-[16px]  z-[999999999999999]   '>
         <Header />
       </div>
-      <div className=' text-sm' >
+      <div className=' text-sm mt-[75px] px-[1%] ' >
       <Outlet />
       </div>
       </div>

@@ -19,7 +19,7 @@ function Table(props) {
     const [modal, setModal] = useState(false);
     const [tableLoading, setTableLoading] = useState(false)
     const location = useLocation();
-    const { ModalLoadedComponent, ModalUser={}, doubleModalDisable = false, columns = [], Actions = [], deleteMultipleRows, data = [], enableRowSelect = true, enableActions = true, enableGlobalSearch = true, enableCreateRow = true, emptyTableMessage = "No Data to Show...", postUrls = `${location.pathname}${location.search!=''?(location.search+'&'):'?'}openModal=true`, addNewElement,  hideColums=[]} = props
+    const { ModalLoadedComponent, ModalUser={}, doubleModalDisable = false, columns = [], Actions = [], deleteMultipleRows, data = [], enableRowSelect = false, enableActions = true, enableGlobalSearch = false, enableCreateRow = false, emptyTableMessage = "No Data to Show...", postUrls = `${location.pathname}${location.search!=''?(location.search+'&'):'?'}openModal=true`, addNewElement,  hideColums=[]} = props
 
     const [initials, setInitials] = useState([]);
 
@@ -83,7 +83,7 @@ function Table(props) {
     } = useTable({
         columns,
         data,
-        initialState: { hiddenColumns: initials },
+        initialState: { hiddenColumns: initials,  },
     },
 
         useFilters, // useFilters!
@@ -177,9 +177,9 @@ function Table(props) {
                 <div className="flex flex-col ">
                     <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                <table className="min-w-full divide-y divide-gray-200 text-[12px]">
-                                    <thead className="bg-gray-50">
+                            <div className="shadow-sm overflow-hidden border-b border-gray-200 ">
+                                <table className="min-w-full  text-[10px]">
+                                    <thead className="bg-[#F5F6F7]">
                                         {headerGroups.map(headerGroup => (
                                             <tr {...headerGroup.getHeaderGroupProps()}>
                                                 {headerGroup.headers.map(column => (
@@ -187,7 +187,7 @@ function Table(props) {
                                                     // we can add them into the header props
                                                     <th
                                                         scope="col"
-                                                        className="group px-6 py-3 text-left  font-medium text-gray-500 uppercase tracking-wider"
+                                                        className="group px-6 py-2 text-left  font-medium text-gray-500 uppercase tracking-wider"
                                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                                     >
                                                         <div className="flex items-center justify-between">
@@ -218,12 +218,12 @@ function Table(props) {
                                                             <>
                                                                 <td
                                                                     {...cell.getCellProps()}
-                                                                    className="px-[5%] sm:px-6 py-4  "
+                                                                    className="px-[5%] sm:px-6 py-2  "
                                                                     role="cell"
                                                                     id={i}
                                                                 >
                                                                     {cell.column.Cell.name === "defaultRenderer"
-                                                                        ? <div className="text-sm text-gray-500 ">{cell.render('Cell')}</div>
+                                                                        ? <div className="text-[12px] text-gray-500 ">{cell.render('Cell')}</div>
                                                                         : cell.render('Cell')
                                                                     }
                                                                 </td>
@@ -245,7 +245,7 @@ function Table(props) {
 
 
             {/* Pagination */}
-            <div className="py-3 flex items-center justify-between">
+            <div className="py-3 px-6 flex items-center justify-between ">
                 <div className="flex-1 flex justify-between sm:hidden">
                     <Button onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</Button>
                     <Button onClick={() => nextPage()} disabled={!canNextPage}>Next</Button>
@@ -264,7 +264,7 @@ function Table(props) {
                                     setPageSize(Number(e.target.value))
                                 }}
                             >
-                                {[5, 10, 20].map(pageSize => (
+                                {[15, 25, 35, 50].map(pageSize => (
                                     <option key={pageSize} value={pageSize}>
                                         Show {pageSize}
                                     </option>

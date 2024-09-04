@@ -24,8 +24,10 @@ export default function Login() {
     // const [loginState, setLoginState] = useState();
     const { loggedIn, login, setLoggedIn, currentUser, setCurrentUser, setRole} = useContext(ContextApp);
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const [otpStage, setOtpStage] = useState(false);
 
     const handleSubmit = (e) => {
 
@@ -41,29 +43,43 @@ export default function Login() {
         try {
             const trimmedUsername = username.trim();
     
-            if (!trimmedUsername || !password) {
-                notification('Username and password are required', 'error');
+            if (!trimmedUsername ) {
+                notification('Email is required', 'error');
                 return;
             }
-    
-            const response = await loginUser({ username: trimmedUsername, password });
+            const payload = {
+                email:trimmedUsername
+            }
+            if (password){
+                payload.otp = password
+            }
+            const response = await loginUser(payload);
             console.log("login response", response);
+
+            if(!otpStage && response.status){
+                setOtpStage(true);
+                setLoading(false);
+                return 
+            }
     
             if (response?.token) {
                 setItem('role', response?.role);
                 setItem('Token', response?.token);
                 setItem('loggedIn', true);
+                console.log("investigationg")
                 setLoggedIn(true);
                 console.log("again i am here");
-                
-                if (response?.role === 'Admin') {
-                    setRole('Admin');
-                    console.log("admin");
-                    navigate('/');
-                } else {
-                    setRole('User');
-                    navigate('/files');
-                }
+                // setRole('Admin');
+                setOtpStage(true);
+                // navigate('/');
+                // if (response?.role === 'Admin') {
+                //     setRole('Admin');
+                //     console.log("admin");
+                //     navigate('/');
+                // } else {
+                //     setRole('User');
+                //     navigate('/files');
+                // }
             } else if (response?.error) {
                 notification(`Login failed: ${response?.error}`, 'error');
             } else {
@@ -103,18 +119,21 @@ export default function Login() {
                             {/* <p>or with email</p> */}
                         </div>
                         <div>
-                            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                            <input value={username} onChange={(e) => { setUsername(e.target.value) }} required type="text" id="username" name="username" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
+                            <label for="Email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input disabled={otpStage} value={username} onChange={(e) => { setUsername(e.target.value) }} required type="email" id="Email" name="Email" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
                         </div>
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                            <input value={password} onChange={(e) => { setPassword(e.target.value) }} required type="password" id="password" name="password" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
-                        </div>
+                       {otpStage && <div className='mt-1'>
+                            <label for="password" class="block text-sm  font-medium text-gray-700">OTP</label>
+                            <input value={password} onChange={(e) => { setPassword(e.target.value) }} required type="number" id="password" name="password" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
+                        </div>}
+                        {
+                          ( otpStage & !loading ) == true ? <div onClick={()=>{setOtpStage(false)}} className=' text-blue-600 text-sm cursor-pointer'>Change Email ?</div>:''
+                        }
                         <div className=' mt-3'>
                             <FormExtra />
                         </div>
                         <div >
-                            <button type="submit" disabled={loading?true:false} class="w-full flex justify-center mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 focus:outline-none focus:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">
+                            <button type="submit" disabled={loading} class="w-full flex justify-center mt-4 bg-blue-600 text-white p-2 rounded-md hover:bg-blue-800 focus:outline-none focus:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">
                                {loading?<Loader/>:'Sign In'} 
                                 </button>
                         </div>
