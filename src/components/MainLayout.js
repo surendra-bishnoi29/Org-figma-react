@@ -35,7 +35,7 @@ function MainLayout(props) {
       <SideNav />
       </div>
       <div className='w-[80%] overflow-auto'>
-      <div className='bg-white border-l  w-[80%] fixed h-[72px] px-[40px] py-[16px]  z-[999999999999999]   '>
+      <div className='bg-white border-l  w-[80%] fixed h-[72px] px-[40px] py-[16px]  z-[9]   '>
         <Header />
       </div>
       <div className=' text-sm mt-[75px] px-[1%] ' >

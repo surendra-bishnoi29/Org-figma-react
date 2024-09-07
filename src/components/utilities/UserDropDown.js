@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import blank_img from '../components/utilities/blank.jpg'
+// import blank_img from '../components/utilities/blank.jpg'
 // import assets from "../../../assets";
 // import { ContextApp } from "../../../ContextAPI";
 // import { removeItem } from "../../../storageService";
@@ -63,13 +63,13 @@ useEffect(() => {
         <img
           alt="..."
           className="w-10 rounded-full align-middle border-none shadow-lg"
-          src='CydiaIcon.png'
+          src={'https://s3-alpha-sig.figma.com/img/e127/d7e8/cc7fe576e974e05df0c1cedef6798b25?Expires=1725840000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EYBflx3YdqgBbYzSZP91tSZIHABmf~SlyV-1wlzGOzy3XijkQWqZY-jGN~yAZSI98tZZ6fVCQenkd6w67M~tjtBaBXFdAR~FII3~Xb5RnAj-o4yJd5bLFg-smOEI3zT4VdHrxqDEuuAeVeO2ylAZ~uHNprIjg4YXTbknTu5fEvjcepXguMRsvlFdmPCSUwOqA9IrteCn0lRCnfF50W5jQn5wg4O6uhvhF72-iJKViafaDBD~xRCLflr3pPqSRJu5AZS4XYqcZyO5PVvwisUaRcSSWDn6yf3kkehJ1pliS7BdVc9s7G4gLl2fZZP3~1qBdClWitUSXO2RU0VkL3X9gg__'}
         />
       </div>
       {
         dropdownPopoverShow ? (
           <>
-            <div className="absolute w-fit z-10  text-base list mt-3 -ml-8  bg-white divide-y divide-gray-100 rounded-lg shadow">
+            <div className="absolute w-fit z-10  text-base list mt-3 -ml-14  bg-white divide-y divide-gray-100 rounded-lg shadow">
               <ul className="py-2 flex   " aria-labelledby="dropdownButton">
                 {/* <li className=" border-r px-1">
                 <a href="#">
@@ -81,7 +81,7 @@ useEffect(() => {
                   </span>
                 </a>
                 </li> */}
-                <li className=" px-1 ">
+                <li className=" px-5 py-2 hover:bg-gray-200 ">
                 <a href="#" onClick={props.logout} >
                   <span className=" flex gap-2" >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 text-red-500">
@@ -108,50 +108,4 @@ export default UserDropdown;
 
 
 
-/*
-return (
-    <div>
-      <span
-        className=" peer text-blueGray-500 block"
-        href=""
-        ref={btnDropdownRef}
-        onClick={(e) => {
-          e.preventDefault();
-          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
-        }}
-      >
-        <div className="items-center sm:hidden flex">
-          <span className="w-10 h-10 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-            <img
-              alt="..."
-              className="w-full rounded-full align-middle border-none shadow-lg"
-              src="https://randomuser.me/api/portraits/women/76.jpg"
-            />
-          </span>
-        </div>
-      </span>
-      <div
-        className={"peer-hover:block hover:block hidden bg-white text-base z-50 float-right py-2 list-none text-left rounded shadow-lg min-w-48 fixed right-4"}
-      >
-        <a
-          href=""
-          className={"text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"}
-          onClick={logoutAction}
-        >
-          Logout
-        </a>
 
-        <div className="h-0 my-2 border border-solid border-blueGray-100" />
-        <a
-          href=""
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Role : Admin
-        </a>
-      </div>
-    </div>
-  );
-*/

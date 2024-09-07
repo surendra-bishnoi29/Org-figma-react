@@ -1,7 +1,7 @@
 
 import React, { useEffect, useMemo, useState, useCallback, useContext } from 'react'
 // import Table from '../shared/Table'
-import { AvatarCell, SelectColumnFilter, StatusPill } from "../../shared/tableUtilities"
+import { AvatarCell, ModifiedStatusCell, SelectColumnFilter, StatusPill } from "../../shared/tableUtilities"
 import { DeleteIcon } from '../../Icons/DeleteIcon';
 import { PencilIcon } from '../../Icons/PencilIcon';
 import EyeIcon from '../../Icons/EyeIcon';
@@ -15,7 +15,11 @@ import WarningPage from '../utilities/WarningPage';
 // import { getItem } from '../login/storageService';
 import { ContextApp } from '../../ContextAPI';
 import TableWrapper from '../../shared/TableWrapper';
-import { getAllLinks } from '../../Actions/linkHistoryActions';
+import { deleteLinkById, getLinkHistory } from '../../Actions/DashboardActions';
+
+const EditLink = loadable(() => import('./EditLink'));
+
+
 
 function LinkHistory() {
     const navigate = useNavigate();
@@ -38,6 +42,7 @@ function LinkHistory() {
 
   // const n = getData();
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const memoData = useMemo(() => { return data }, [data])
 
   useEffect(() => {
@@ -49,23 +54,30 @@ function LinkHistory() {
 
   const getAllLinksList = async () => {
     // This function call API function from ACTIONS.
-    const response = await getAllUsers();
+    setLoading(true);
+    const response = await getLinkHistory();
     console.log("response to check token ", response)
     if (response) {
       if(response.message == 'Token is invalid!')
         {
           navigate('/login')
         }
-      setData(response);
+        if(response?.status)
+        {
+          setData(response?.data);
+          notification("Links history fetched", 'success')
+        }else{
+          notification("failed to get All links", 'error')
+        }
+      
     }
-
-
+    setLoading(false)
   }
 
   useEffect(()=>{
     console.log("checking role", role )
     if(role != 'Admin'){
-      navigate('/files')
+      // navigate('/files')
     }
     
   },[role, location])
@@ -80,18 +92,18 @@ function LinkHistory() {
       }
       if (confirmation) {
       // const newData = kData.filter((d1)=>{return !(d1.id==dataId)});
-      const temp_user = data.find((d1) => { return d1._id == dataId });
-      console.log("temp_user", temp_user)
-      const fileName = temp_user?.name + '-' + temp_user?._id;
-      console.log("fileName", fileName)
-      const response = await deleteUser(dataId, fileName);
+      // const temp_user = data.find((d1) => { return d1._id == dataId });
+      // console.log("temp_user", temp_user)
+      // const fileName = temp_user?.name + '-' + temp_user?._id;
+      // console.log("fileName", fileName)
+      const response = await deleteLinkById(dataId);
 
       if (response?.status) {
-        setData((prev) => prev.filter((d1) => { return !(d1._id == dataId) }));
-        notification('User Deleted Successfully', 'success')
+        setData((prev) => prev.filter((d1) => { return !(d1.id == dataId) }));
+        notification('Link Deleted Successfully', 'success')
 
       } else {
-        notification('User Not Deleted', 'error')
+        notification('Link Not Deleted', 'error')
       }
     }
       // pData = newData;
@@ -106,8 +118,8 @@ function LinkHistory() {
 
   const columns = React.useMemo(() => [
     {
-      Header: "Name",
-      accessor: 'name',
+      Header: "Link",
+      accessor: 'link',
       // Cell: AvatarCell,
       imgAccessor: "image",
       emailAccessor: "email",
@@ -117,26 +129,33 @@ function LinkHistory() {
       thirdAccessor: 'organisation'
     },
     {
-      id: 'city',
-      Header: "City",
-      accessor: 'city',
+      id: 'Status',
+      Header: "Status",
+      accessor: 'link_prediction',
+      Cell: StatusPill,
     },
     {
-      id: 'mobile',
-      Header: "Mobile No.",
-      accessor: 'mobile',
-    },
-    {
-      id: 'organisation',
-      Header: "Organisation",
-      accessor: 'organisation',
-    },
-    {
-      id: 'role',
-      Header: "Role",
-      accessor: 'role',
-    //   Cell: StatusPill,
-    },
+      id:'Modified_status',
+      Header: "Modified Status",
+      accessor: 'modified_status',
+      Cell:ModifiedStatusCell
+    }
+    // {
+    //   id: 'mobile',
+    //   Header: "Mobile No.",
+    //   accessor: 'mobile',
+    // },
+    // {
+    //   id: 'organisation',
+    //   Header: "Organisation",
+    //   accessor: 'organisation',
+    // },
+    // {
+    //   id: 'role',
+    //   Header: "Role",
+    //   accessor: 'role',
+    // //   Cell: StatusPill,
+    // },
 
 
 
@@ -232,13 +251,13 @@ function LinkHistory() {
             {/* <h1 className="text-xl font-semibold">Table Header</h1> */}
           </div>
           {isDesktop && <div className=" ">
-            <TableWrapper header={"Links History"}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper ModalLoadedComponent={EditLink} loading={loading} header={"Links History"}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
           {isTablet && <div className=" ">
-            <TableWrapper header={"Links History"} enableRowSelect={false} hideColums={['city', 'role', 'mobile']}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper ModalLoadedComponent={EditLink} loading={loading} header={"Links History"} enableRowSelect={false} hideColums={['city', 'role', 'mobile']}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
           {isMobile && <div className=" ">
-            <TableWrapper header={"Links History"} enableRowSelect={false} hideColums={['city', 'role', 'organisation', 'mobile']}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper ModalLoadedComponent={EditLink} loading={loading} header={"Links History"} enableRowSelect={false} hideColums={['city', 'role', 'organisation', 'mobile']}  columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
         </main>
       </div>

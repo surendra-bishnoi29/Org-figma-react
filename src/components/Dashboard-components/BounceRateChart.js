@@ -49,7 +49,7 @@ const BounceRateChart = () => {
 
   return (
     <div className=' -mb-[30px]'>
-        <SmallChartHeaderWrapper/>
+        <SmallChartHeaderWrapper  header={'BOUNCE RATE'} fluc={-20} total={30} percentage={true}/>
         <div className=' -mt-14'>
       <Chart options={options} series={series} type="area" height={250} />
       </div>

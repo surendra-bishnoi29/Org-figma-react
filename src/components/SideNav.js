@@ -28,8 +28,8 @@ function SideNav() {
       setCurrentUser(response.user);
     }
     if (response?.error) {
-      localStorage.clear();
-      window.location.reload();
+      // localStorage.clear();
+      // window.location.reload();
     }
     setLoading(false);
 

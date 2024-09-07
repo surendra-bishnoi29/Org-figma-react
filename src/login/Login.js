@@ -69,9 +69,9 @@ export default function Login() {
                 console.log("investigationg")
                 setLoggedIn(true);
                 console.log("again i am here");
-                // setRole('Admin');
-                setOtpStage(true);
-                // navigate('/');
+                setRole('Admin');
+                // setOtpStage(true);
+                navigate('/');
                 // if (response?.role === 'Admin') {
                 //     setRole('Admin');
                 //     console.log("admin");
@@ -127,7 +127,7 @@ export default function Login() {
                             <input value={password} onChange={(e) => { setPassword(e.target.value) }} required type="number" id="password" name="password" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
                         </div>}
                         {
-                          ( otpStage & !loading ) == true ? <div onClick={()=>{setOtpStage(false)}} className=' text-blue-600 text-sm cursor-pointer'>Change Email ?</div>:''
+                          ( otpStage & !loading ) == true ? <div onClick={()=>{setOtpStage(false); setPassword(null)}} className=' text-blue-600 text-sm cursor-pointer'>Change Email ?</div>:''
                         }
                         <div className=' mt-3'>
                             <FormExtra />
