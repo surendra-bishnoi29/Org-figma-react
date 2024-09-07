@@ -121,10 +121,11 @@ export function StatusPill({ value, row, column }) {
         <span
             className={
                 classNames(
-                    "px-3 py-1 uppercase leading-wide font-bold text-xs rounded-full shadow-sm",
-                    status.startsWith("Admin") ? "bg-green-100 text-green-800" : null,
+                    "px-3 py-1  leading-wide  text-xs rounded-full shadow-sm",
+                    status.startsWith("Benign") ? "bg-green-100 text-green-800" : null,
                     status.startsWith("User") ? "bg-yellow-100 text-yellow-800" : null,
-                    status.startsWith("offline") ? "bg-red-100 text-red-800" : null,
+                    status.startsWith("Malicious") ? "bg-red-100 text-red-800" : null,
+                    status.startsWith("Admin")? "bg-blue-100 text-[#554713]" : null,
                 )
             }
         >
@@ -151,7 +152,36 @@ const getFiledownload = async (url) => {
     window.URL.revokeObjectURL(downloadUrl);
 }
 
-
+export const ModifiedStatusCell = ({ value, row, column }) =>{
+    let status = ''
+    // const status = row.original[column.imgAccessor]
+    if (value){
+        status = value
+    }else{
+        status = '-'
+    }
+    return  value?(
+        <span
+            className={
+                classNames(
+                    "px-3 py-1  leading-wide  text-xs rounded-full shadow-sm",
+                    status.startsWith("Benign") ? "bg-green-100 text-green-800" : null,
+                    status.startsWith("User") ? "bg-yellow-100 text-yellow-800" : null,
+                    status.startsWith("Malicious") ? "bg-red-100 text-red-800" : null,
+                )
+            }
+        >
+            {status}
+        </span>
+    )
+    :
+    (
+        <div>
+           { status}
+        </div>
+    )
+    ;
+}
 
 
 export function AvatarCell({ value, column, row }) {

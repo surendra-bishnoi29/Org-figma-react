@@ -14,7 +14,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 const base_url = 'http://127.0.0.1:4320'
 
 export const getAllUsers = async() => {
-  const response = await getApiWrapper(`${base_url}/users/get-users`);
+  const response = await getApiWrapper(`${base_url}/api/users`);
   console.log('getAllUsers', response);
   return response;
 };
@@ -27,17 +27,23 @@ export const createUser = (user) => {
   return response;
 }
 
-export const updateUser = (user, id) => {
-  const response = putApiWrapper(`${base_url}/users/update-user/`+id, user);
+export const updateUser = (id, user) => {
+  const response = putApiWrapper(`${base_url}/api/users/${id}`, user);
   return response;
 } 
 
-export const deleteUser = (id, file_name) => {
-  const response = deleteApiWrapper(`${base_url}/users/delete-user/${id}/${file_name}`);
+export const deleteUser = (id) => {
+  const response = deleteApiWrapper(`${base_url}/api/users/${id}`);
+  return response;
+}
+
+
+export const getUserById = (id) =>{
+  const response = getApiWrapper(`${base_url}/api/users/${id}`);
   return response;
 }
 
 export const getCurrentUser = async() => {
-  const response = await getApiWrapper(`${base_url}/get-current-user`);
-  return response;
+  // const response = await getApiWrapper(`${base_url}/get-current-user`);
+  // return response;
 }

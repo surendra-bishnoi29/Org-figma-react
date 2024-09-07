@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { format, subMonths } from 'date-fns';
 
-const HeaderComponent = () => {
+const LargeChartHeader = ({header='Benign Vs Malicious',  changeMonthYear}) => {
   const [isOpen, setIsOpen] = useState(false); // Dropdown visibility state
   const [selectedMonth, setSelectedMonth] = useState('This Month'); // Currently selected option
   const dropdownRef = useRef(null); // Reference for detecting outside clicks
@@ -10,7 +10,7 @@ const HeaderComponent = () => {
   // Generate last 12 months dynamically
   const generateMonths = () => {
     let months = [];
-    for (let i = 0; i < 12; i++) {
+    for (let i = 1; i < 12; i++) {
       months.push(format(subMonths(new Date(), i), 'MMM yyyy'));
     }
     return months;
@@ -19,8 +19,23 @@ const HeaderComponent = () => {
   const months = generateMonths(); // Get the list of months
 
   const handleMonthSelect = (month) => {
+
     setSelectedMonth(month); // Set selected month
-    setIsOpen(false); // Close the dropdown
+    setIsOpen(false);
+
+    if(selectedMonth == month)
+    {
+      return 
+    }
+    if (month === 'This Month') {
+      const currentMonth = format(new Date(), 'MM'); // Get current month as number (e.g., '09')
+      const currentYear = format(new Date(), 'yyyy'); // Get current year (e.g., '2024')
+      changeMonthYear(currentMonth, currentYear); // Call the parent function with current month/year
+    } else {
+      const [monthName, year] = month.split(' '); // Split the selected month into month name and year
+      const monthNumber = format(new Date(`${monthName} 01 ${year}`), 'MM'); // Convert month name to number (e.g., '09')
+      changeMonthYear(monthNumber, year); // Call the parent function with selected month/year
+    }
   };
 
   // Close dropdown on outside click
@@ -47,7 +62,7 @@ const HeaderComponent = () => {
     <div className="flex justify-between items-center border-b py-3 px-6">
       {/* Left Side - Title */}
       <div className="font-sans font-[400] text-[13px]  leading-6 text-left">
-      Most Visited Page
+      {header}
       </div>
 
       {/* Right Side - Dropdown */}
@@ -109,4 +124,4 @@ const HeaderComponent = () => {
   );
 };
 
-export default HeaderComponent;
+export default LargeChartHeader;

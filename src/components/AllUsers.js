@@ -40,6 +40,8 @@ function AllUsers() {
 
   const [deleteConfig, setDeleteConfig] = useState(undefined);
 
+  const [loading, setLoading] = useState(true);
+
   // const n = getData();
   const [data, setData] = useState([]);
   const memoData = useMemo(() => { return data }, [data])
@@ -53,6 +55,7 @@ function AllUsers() {
 
   const getAllusersList = async () => {
     // This function call API function from ACTIONS.
+    setLoading(true)
     const response = await getAllUsers();
     console.log("response to check token ", response)
     if (response) {
@@ -60,17 +63,23 @@ function AllUsers() {
         {
           navigate('/login')
         }
-      setData(response);
+      if(response?.status){
+        setData(response?.data);
+        notification("user list fetched successfully", "success")
+      }else{
+        notification("user list fetch failed", "error")
+      }
+     
     }
-
+    setLoading(false)
 
   }
 
   useEffect(()=>{
     console.log("checking role", role )
-    if(role != 'Admin'){
-      navigate('/files')
-    }
+    // if(role != 'Admin'){
+    //   navigate('/files')
+    // }
     
   },[role, location])
 
@@ -84,14 +93,14 @@ function AllUsers() {
       }
       if (confirmation) {
       // const newData = kData.filter((d1)=>{return !(d1.id==dataId)});
-      const temp_user = data.find((d1) => { return d1._id == dataId });
-      console.log("temp_user", temp_user)
-      const fileName = temp_user?.name + '-' + temp_user?._id;
-      console.log("fileName", fileName)
-      const response = await deleteUser(dataId, fileName);
+      // const temp_user = data.find((d1) => { return d1._id == dataId });
+      // console.log("temp_user", temp_user)
+      // const fileName = temp_user?.name + '-' + temp_user?._id;
+      // console.log("fileName", fileName)
+      const response = await deleteUser(dataId);
 
       if (response?.status) {
-        setData((prev) => prev.filter((d1) => { return !(d1._id == dataId) }));
+        setData((prev) => prev.filter((d1) => { return !(d1.id == dataId) }));
         notification('User Deleted Successfully', 'success')
 
       } else {
@@ -110,31 +119,31 @@ function AllUsers() {
 
   const columns = React.useMemo(() => [
     {
-      Header: "Name",
-      accessor: 'name',
+      Header: "Email",
+      accessor: 'email',
       // Cell: AvatarCell,
-      imgAccessor: "image",
-      emailAccessor: "email",
-      secondAccessor: 'city',
-      mobileAccessor: 'mobile',
-      firstAccessor: 'role',
-      thirdAccessor: 'organisation'
+      // imgAccessor: "image",
+      // emailAccessor: "email",
+      // secondAccessor: 'city',
+      // mobileAccessor: 'mobile',
+      // firstAccessor: 'role',
+      // thirdAccessor: 'organisation'
     },
-    {
-      id: 'city',
-      Header: "City",
-      accessor: 'city',
-    },
-    {
-      id: 'mobile',
-      Header: "Mobile No.",
-      accessor: 'mobile',
-    },
-    {
-      id: 'organisation',
-      Header: "Organisation",
-      accessor: 'organisation',
-    },
+    // {
+    //   id: 'city',
+    //   Header: "City",
+    //   accessor: 'city',
+    // },
+    // {
+    //   id: 'mobile',
+    //   Header: "Mobile No.",
+    //   accessor: 'mobile',
+    // },
+    // {
+    //   id: 'organisation',
+    //   Header: "Organisation",
+    //   accessor: 'organisation',
+    // },
     {
       id: 'role',
       Header: "Role",
@@ -168,22 +177,22 @@ function AllUsers() {
   ], [])
 
   const Actions = [
-    {
-      element: <div className=' cursor-pointer'> <EyeIcon /></div>,
-      actionName: "view",
-      action: commonAction
-    },
+    // {
+    //   element: <div className=' cursor-pointer'> <EyeIcon /></div>,
+    //   actionName: "view",
+    //   action: commonAction
+    // },
     {
       element: <div className=' text-green-800 cursor-pointer'><PencilIcon /> </div>,
       actionName: "edit",
       action: commonAction
       // onClick: props.onClick,
     },
-    {
-      element: <div className=' text-red-800 cursor-pointer'><DeleteIcon /></div>,
-      actionName: "delete",
-      action: commonAction
-    }
+    // {
+    //   element: <div className=' text-red-800 cursor-pointer'><DeleteIcon /></div>,
+    //   actionName: "delete",
+    //   action: commonAction
+    // }
   ]
 
 
@@ -236,13 +245,13 @@ function AllUsers() {
             {/* <h1 className="text-xl font-semibold">Table Header</h1> */}
           </div>
           {isDesktop && <div className="mt-6 ">
-            <TableWrapper ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper loading={loading} header={"Users"}  ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
           {isTablet && <div className=" ">
-            <TableWrapper enableRowSelect={false} hideColums={['city', 'role', 'mobile']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper loading={loading} header={"Users "}  enableRowSelect={false} hideColums={['city', 'role', 'mobile']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
           {isMobile && <div className=" ">
-            <TableWrapper enableRowSelect={false} hideColums={['city', 'role', 'organisation', 'mobile']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper loading={loading} header={"Users"}  enableRowSelect={false} hideColums={['city', 'role', 'organisation', 'mobile']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
         </main>
       </div>

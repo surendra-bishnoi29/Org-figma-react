@@ -29,7 +29,7 @@ const RowActions = (props) => {
             {props.Actions.length == 1 ?
                 <span onClick={() => {
                    
-                    props.Actions[0].action(props.Actions[0].actionName, props.row.original._id)
+                    props.Actions[0].action(props.Actions[0].actionName, props.row.original.id)
                 }} className='cursor-pointer'>
                     {props.Actions[0].element}  
                 </span>

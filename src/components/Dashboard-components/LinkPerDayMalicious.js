@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
 
-const LinkPerDayChartMalicious = () => {
+const LinkPerDayChartMalicious = ({categories, series}) => {
   const options = {
     chart: {
       type: 'area',
@@ -29,16 +29,28 @@ const LinkPerDayChartMalicious = () => {
         opacityTo: 0
       }
     },
+    xaxis: {
+      categories: categories,
+      labels: {
+          show: false,
+      },
+      axisBorder: {
+          show: false,
+      },
+      axisTicks: {
+          show: false,
+      },
+  },
     colors: ['#E84646'], 
     tooltip: {
       enabled: true
     }
   };
 
-  const series = [{
-    name: 'series1',
-    data: [35, 30, 25, 35, 25, 40, 38, 30] // Example data
-  }];
+  // const series = [{
+  //   name: 'series1',
+  //   data: [35, 30, 25, 35, 25, 40, 38, 30] // Example data
+  // }];
 
   return (
     <div>
