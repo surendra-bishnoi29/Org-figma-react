@@ -139,7 +139,7 @@ function Table(props) {
             <Notification />
             {modal && !doubleModalDisable ? <ModalLoadedComponent modalUser={ModalUser} notification={(msg, type) => { notification(msg, type) }} close={() => { setModal(false) }} /> : ''}
             <div className=' flex justify-between overflow-hidden items-center '>
-                {enableGlobalSearch ? (<div className="sm:flex sm:gap-x-2 items-center my-3">
+                {enableGlobalSearch ? (<div className="sm:flex sm:gap-x-2  items-center ml-5 my-3">
                     <GlobalFilter
                         preGlobalFilteredRows={preGlobalFilteredRows}
                         globalFilter={state.globalFilter}

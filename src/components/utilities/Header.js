@@ -12,13 +12,14 @@ function Header() {
   }
   return (
     <div className=' flex justify-between  items-center h-full'>
-        <div>
-          <Search />
+        <div className=' font-[600]'>
+          {/* <Search /> */}
+          ADMIN PANEL
         </div>
 
         <div className=' flex gap-[16px] items-center'>
-            <div><Square/></div>
-            <div><BellIcon/></div>
+            {/* <div><Square/></div> */}
+            {/* <div><BellIcon/></div> */}
             {/* <img src="CydiaIcon.png" className=' w-10 h-10' /> */}
             <UserDropdown logout={logout}/>
         </div>

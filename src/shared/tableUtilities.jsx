@@ -53,7 +53,7 @@ export function GlobalFilter({
                 <input
                     type="text"
                     id="table-search"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-3  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search for items "
                     value={value || ""}
                     onChange={e => {
@@ -112,6 +112,35 @@ export function SelectColumnFilter({
     )
 }
 
+export function SmartIntegrationPill({ value, row, column }) {
+
+    const status = value?'Enabled':'Disabled'
+    // const status = row.original[column.imgAccessor]
+
+    return (
+        <span
+            className={
+                classNames(
+                    "px-3 py-1  leading-wide  text-xs rounded-full shadow-sm",
+                    status.startsWith("Enabled") ? "bg-green-100 text-green-800" : null,
+                    status.startsWith("Disabled") ? "bg-red-100 text-red-800" : null
+                )
+            }
+        >
+            {status}
+        </span>
+    );
+};
+
+export const shortenNameCell = ({ value, row, column }) => {
+    const maxLength = 50; // Define the maximum length of the name before shortening
+    if (value.length > maxLength) {
+        return value.substring(0, maxLength) + '...'; // Shorten and add "..."
+    }
+    return value; // Return the full name if it's within the maxLength
+};
+
+
 export function StatusPill({ value, row, column }) {
 
     const status = value
@@ -126,6 +155,10 @@ export function StatusPill({ value, row, column }) {
                     status.startsWith("User") ? "bg-yellow-100 text-yellow-800" : null,
                     status.startsWith("Malicious") ? "bg-red-100 text-red-800" : null,
                     status.startsWith("Admin")? "bg-blue-100 text-[#554713]" : null,
+                    status.startsWith("Logged Out")? "bg-[#f6d8b3] text-[#df4936]" : null,
+                    status.startsWith("Logged In")? "bg-[#e2dfed] text-[#30ad47]" : null,
+                    status.startsWith("active")? "bg-[#F0F6FF] text-[#005CE8] uppercase" : null,
+                    status.startsWith("expired")? "bg-[#f6d8b3] text-[#df4936] uppercase" : null,
                 )
             }
         >
