@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import blank_img from '../components/utilities/blank.jpg'
 // import assets from "../../../assets";
 // import { ContextApp } from "../../../ContextAPI";
@@ -19,18 +19,18 @@ const UserDropdown = (props) => {
     if (btnDropdownRef.current && !btnDropdownRef.current.contains(event.target)) {
       setDropdownPopoverShow(false);
     }
-};
+  };
 
 
 
-// Effect to add click event listener when component mounts
-useEffect(() => {
+  // Effect to add click event listener when component mounts
+  useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     // Clean up event listener when component unmounts
     return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-}, []);
+  }, []);
 
 
 
@@ -51,26 +51,30 @@ useEffect(() => {
 
   return (
     <div
-    ref={btnDropdownRef}
+      ref={btnDropdownRef}
     >
-      <div 
-      className=" pr-5 "
-      onClick={(e) => {
-        e.preventDefault();
-        dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
-      }}
+      <div
+        className=" pr-5 "
+        onClick={(e) => {
+          e.preventDefault();
+          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
+        }}
       >
         <img
           alt="..."
           className="w-10 rounded-full align-middle border-none shadow-lg"
-          src='CydiaIcon.png'
+          src='avatar.webp'
         />
       </div>
       {
         dropdownPopoverShow ? (
           <>
-            <div className="absolute w-fit z-10  text-base list mt-3 -ml-8  bg-white divide-y divide-gray-100 rounded-lg shadow">
-              <ul className="py-2 flex   " aria-labelledby="dropdownButton">
+            <div className="absolute w-fit z-10  text-base list mt-3 -ml-[130px] min-w-40  bg-white divide-y divide-gray-100 rounded-lg shadow">
+              {/* <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+               
+                  <div class="font-medium truncate">name@flowbite.com</div> 
+              </div> */}
+              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownButton">
                 {/* <li className=" border-r px-1">
                 <a href="#">
                   <span className=" text-black">
@@ -81,7 +85,12 @@ useEffect(() => {
                   </span>
                 </a>
                 </li> */}
-                <li className=" px-1 ">
+
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                </li>
+
+                {/* <li className=" px-1 ">
                 <a href="#" onClick={props.logout} >
                   <span className=" flex gap-2" >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 text-red-500">
@@ -90,8 +99,11 @@ useEffect(() => {
                     <span>logout</span>
                   </span>
                 </a>
-                </li> 
+                </li>  */}
               </ul>
+              <div onClick={props.logout} class="py-2">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+              </div>
             </div>
           </>
         )

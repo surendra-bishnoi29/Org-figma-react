@@ -39,13 +39,14 @@ function LinksPerDayWrapper({ serverData, loading }) {
       if (totalLinksArray.length >= 2) {
         const lastDayTotal = totalLinksArray[totalLinksArray.length - 1];
         const previousDayTotal = totalLinksArray[totalLinksArray.length - 2];
+        console.log("lastDayTotal: ",lastDayTotal)
+        console.log("previousDayTotal" , previousDayTotal)
 
-        if (previousDayTotal > 0) {
-          const change = ((lastDayTotal - previousDayTotal) / previousDayTotal) * 100;
+        
+          const change = ((lastDayTotal - previousDayTotal) / (previousDayTotal+lastDayTotal)) * 100;
+          console.log("change" , change)
           setPercentageChange(change.toFixed(1)); // Round to 2 decimal places
-        } else {
-          setPercentageChange(null); // Avoid division by zero
-        }
+        
       }
     }
   }, [serverData]);
@@ -63,6 +64,7 @@ function LinksPerDayWrapper({ serverData, loading }) {
         <SmallChartHeaderWrapper header={'LINKS PER DAY'} fluc={percentageChange} total={totalLinks} />
         <LinkPerDayChart categories={categories} series={benignSeries} />
         <LinkPerDayChartMalicious categories={categories} series={maliciousSeries} />
+        <div className='    text-right text-[10px] -mb-8 -mt-[11px] text-[#6f6f6e] '><span className='text-blue-600'>*</span>Daily Data</div>
         </>)
         }
     </div>

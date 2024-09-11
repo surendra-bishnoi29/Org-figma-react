@@ -42,8 +42,8 @@ const TotalChart = ({ serverData, loading }) => {
                 const lastWeek = totalLinks[totalLinks.length - 1];
                 const secondLastWeek = totalLinks[totalLinks.length - 2];
 
-                if (secondLastWeek > 0) {
-                    const change = ((lastWeek - secondLastWeek) / secondLastWeek) * 100;
+                if ((secondLastWeek+lastWeek) > 0) {
+                    const change = ((lastWeek - secondLastWeek) / (secondLastWeek+lastWeek)) * 100;
                     setPercentageChange(change.toFixed(1)); // Round to 2 decimal places
                 } else {
                     setPercentageChange(null); // Avoid division by zero
@@ -151,12 +151,15 @@ const TotalChart = ({ serverData, loading }) => {
                 </>
                 :
                 (<><SmallChartHeaderWrapper header={'TOTAL LINKS'} fluc={percentageChange} total={totalLinks} />
+                    <span className=' -mb-8'>
                     <Chart
                         options={chartOptions}
                         series={chartData.series}
                         type="bar"
                         height={170} // Set the chart height
                     />
+                    </span>
+                    <div className='   text-right text-[10px] -mb-2 -mt-6 text-[#6f6f6e] '><span className='text-blue-600'>*</span>Weekly Data</div>
                 </>)
             }
         </div>

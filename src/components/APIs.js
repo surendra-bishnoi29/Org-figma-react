@@ -14,6 +14,7 @@ import WarningPage from './utilities/WarningPage';
 import { getItem } from '../login/storageService';
 import { ContextApp } from '../ContextAPI';
 import TableWrapper from '../shared/TableWrapper';
+import { getOrgInfo } from '../Actions/APIsPageActions';
 
 
 
@@ -48,15 +49,15 @@ function APIs() {
 
   useEffect(() => {
     console.log("location", location)
-    getAllusersList();
+    getAPIList();
   }, [location])
 
   
 
-  const getAllusersList = async () => {
+  const getAPIList = async () => {
     // This function call API function from ACTIONS.
     setLoading(true)
-    const response = await getAllUsers();
+    const response = await getOrgInfo();
     console.log("response to check token ", response)
     if (response) {
       if(response.message == 'Token is invalid!')
@@ -65,9 +66,9 @@ function APIs() {
         }
       if(response?.status){
         setData(response?.data);
-        notification("user list fetched successfully", "success")
+        notification("API fetched successfully", "success")
       }else{
-        notification("user list fetch failed", "error")
+        notification("API fetch failed", "error")
       }
      
     }
@@ -119,8 +120,15 @@ function APIs() {
 
   const columns = React.useMemo(() => [
     {
-      Header: "Email",
-      accessor: 'email',
+      id: 'api_key',
+      Header: "API",
+      accessor: 'api_key',
+    },
+
+    {
+      Header: "Create Date",
+      accessor: 'api_created',
+
       // Cell: AvatarCell,
       // imgAccessor: "image",
       // emailAccessor: "email",
@@ -129,11 +137,29 @@ function APIs() {
       // firstAccessor: 'role',
       // thirdAccessor: 'organisation'
     },
+    {
+      id: 'expiry_date',
+      Header: "Expiry Date",
+      accessor: 'expiry_date',
+    },
+    {
+      id: 'status',
+      Header: "status",
+      accessor: 'status',
+      Cell: StatusPill,
+    },
+    {
+      id: 'plan_type',
+      Header: "Subscription",
+      accessor: 'plan_type',
+      // Cell: StatusPill,
+    }
     // {
-    //   id: 'city',
-    //   Header: "City",
-    //   accessor: 'city',
+    //   id: 'api_key',
+    //   Header: "API",
+    //   accessor: 'api_key',
     // },
+    
     // {
     //   id: 'mobile',
     //   Header: "Mobile No.",
@@ -144,12 +170,12 @@ function APIs() {
     //   Header: "Organisation",
     //   accessor: 'organisation',
     // },
-    {
-      id: 'role',
-      Header: "Role",
-      accessor: 'role',
-      Cell: StatusPill,
-    },
+    // {
+    //   id: 'role',
+    //   Header: "Role",
+    //   accessor: 'role',
+    //   // Cell: StatusPill,
+    // },
 
 
 
@@ -182,12 +208,12 @@ function APIs() {
     //   actionName: "view",
     //   action: commonAction
     // },
-    {
-      element: <div className=' text-green-800 cursor-pointer'><PencilIcon /> </div>,
-      actionName: "edit",
-      action: commonAction
-      // onClick: props.onClick,
-    },
+    // {
+    //   element: <div className=' text-green-800 cursor-pointer'><PencilIcon /> </div>,
+    //   actionName: "edit",
+    //   action: commonAction
+    //   // onClick: props.onClick,
+    // },
     // {
     //   element: <div className=' text-red-800 cursor-pointer'><DeleteIcon /></div>,
     //   actionName: "delete",
@@ -245,13 +271,13 @@ function APIs() {
             {/* <h1 className="text-xl font-semibold">Table Header</h1> */}
           </div>
           {isDesktop && <div className="mt-6 ">
-            <TableWrapper loading={loading} header={"Users"}  ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper loading={loading} header={"API"} hideColums={['city', 'role', 'mobile', 'actions']}  ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
           {isTablet && <div className=" ">
-            <TableWrapper loading={loading} header={"Users "}  enableRowSelect={false} hideColums={['city', 'role', 'mobile']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper loading={loading} header={"API "}  enableRowSelect={false} hideColums={['city', 'role', 'mobile', 'actions']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
           {isMobile && <div className=" ">
-            <TableWrapper loading={loading} header={"Users"}  enableRowSelect={false} hideColums={['city', 'role', 'organisation', 'mobile']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
+            <TableWrapper loading={loading} header={"API"}  enableRowSelect={false} hideColums={['city', 'role', 'organisation', 'mobile', 'actions']} ModalLoadedComponent={CreateUser} columns={columns} data={memoData} Actions={Actions} deleteMultipleRows={deleteMultipleRows} addNewElement={addNewElement} />
           </div>}
         </main>
       </div>

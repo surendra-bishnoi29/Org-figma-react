@@ -11,7 +11,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
  * @returns {Array} An array of user objects.
  */
 
-const base_url = 'http://127.0.0.1:4320'
+const base_url = 'http://34.18.95.25'
 
 export const getAnalyticsByWeekly = async() => {
   const response = await getApiWrapper(`${base_url}/analytics/last_seven_weeks`);
@@ -59,7 +59,21 @@ export const getAnalyticsLastSevenDays= async() => {
 
   export const getLinkHistoryByMonth= async(month, year) => {
     const response = await getApiWrapper(`${base_url}/links/monthly?month=${month}&year=${year}`);
-    console.log('getLinkHistoryById', response);
+   
     return response;
   };
+
+
+  export const getSession = async (link) =>{
+    const response = await postApiWrapper(`${base_url}/create-session`, link);
+    
+    return response;
+  }
+
+
+  export const getRemoteBrowserCounts = async () =>{
+    const response = await getApiWrapper(`${base_url}/analytics/remote-browser`);
+    
+    return response;
+  }
   

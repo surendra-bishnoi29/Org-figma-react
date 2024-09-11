@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState, useCallback, useContext } from 'react'
 import Table from '../shared/Table'
-import { AvatarCell, SelectColumnFilter, StatusPill } from "../shared/tableUtilities"
+import { AvatarCell, SelectColumnFilter, StatusPill,SmartIntegrationPill } from "../shared/tableUtilities"
 import { DeleteIcon } from '../Icons/DeleteIcon';
 import { PencilIcon } from '../Icons/PencilIcon';
 import EyeIcon from '../Icons/EyeIcon';
@@ -121,6 +121,7 @@ function AllUsers() {
     {
       Header: "Email",
       accessor: 'email',
+
       // Cell: AvatarCell,
       // imgAccessor: "image",
       // emailAccessor: "email",
@@ -150,6 +151,18 @@ function AllUsers() {
       accessor: 'role',
       Cell: StatusPill,
     },
+    {
+      id: 'smart_integration',
+      Header: "Smart Integration ",
+      accessor: 'smart_integration',
+      Cell: SmartIntegrationPill,
+    },
+    {
+      id: 'login_status',
+      Header: "Login Status",
+      accessor: 'login_status',
+      Cell: StatusPill,
+    }
 
 
 
